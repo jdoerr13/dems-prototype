@@ -1,4 +1,3 @@
-// src/pages/DefensePortal.jsx
 import React, { useMemo, useState } from "react";
 import { useCases } from "../contexts/CaseContext";
 import EvidenceViewer from "../components/EvidenceViewer";

@@ -1,5 +1,3 @@
-// src/mock/data.js
-
 // Demo users
 export const users = [
   { email: "lea@county.gov", role: "lea" },

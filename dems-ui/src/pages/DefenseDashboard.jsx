@@ -1,4 +1,3 @@
-// src/pages/DefenseDashboard.jsx
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useDashboardData from "../hooks/useDashboardData";

@@ -1,5 +1,4 @@
-// src/components/Layout.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useCases } from "../contexts/CaseContext";
@@ -9,8 +8,21 @@ export default function Layout({ children }) {
   const { notifications, markAllRead } = useCases();
   const nav = useNavigate();
   const role = user?.role;
-
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
@@ -20,22 +32,19 @@ export default function Layout({ children }) {
           DEMS Prototype
 
           {/* Notification Bell */}
-          <div className="relative">
-            <button
-              className="relative"
-              onClick={() => setOpen(!open)}
-            >
-              <span className="text-xl">🔔</span>
-              {notifications.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2">
-                  {notifications.length}
-                </span>
-              )}
-            </button>
+<div className="relative" ref={dropdownRef}>
+  <button onClick={() => setOpen(!open)} className="relative">
+    <span className="text-xl">🔔</span>
+    {notifications.length > 0 && (
+      <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-2">
+        {notifications.length}
+      </span>
+    )}
+  </button>
 
             {/* Notification Dropdown */}
             {open && (
-              <div className="absolute top-10 right-0 w-64 bg-white text-gray-800 rounded shadow-lg border max-h-80 overflow-y-auto z-50">
+              <div className="absolute top-10 left-full ml-2 w-72 bg-white text-gray-800 rounded shadow-lg border max-h-80 overflow-y-auto z-50">
                 <div className="flex justify-between items-center p-3 font-semibold border-b bg-gray-50">
                   Notifications
                   <button
@@ -46,7 +55,9 @@ export default function Layout({ children }) {
                   </button>
                 </div>
                 {notifications.length === 0 ? (
-                  <div className="p-3 text-sm text-gray-500">No new notifications</div>
+                  <div className="p-3 text-sm text-gray-500">
+                    No new notifications
+                  </div>
                 ) : (
                   <ul className="text-sm">
                     {notifications.map((n) => (
