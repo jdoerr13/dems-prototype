@@ -18,25 +18,35 @@ export default function LEAPortal() {
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const createCase = (e) => {
+  const createCase = async (e) => {
     e.preventDefault();
     if (!form.caseId || !form.officerBadge || !form.incidentDate) {
       return alert("Case ID, Badge, Date required");
     }
-    addCase({
+
+    const newCase = {
       ...form,
       createdBy: user.email,
       status: "Submitted",
       prosecutorEmail: null,
-    });
-    setForm({
-      caseId: "",
-      title: "",
-      officerName: "",
-      officerBadge: "",
-      incidentDate: "",
-      agency: "Williamson County SO",
-    });
+      defenseEmail: null,
+      coDefendants: null,
+    };
+
+    try {
+      await addCase(newCase); // Supabase insert via CaseContext
+      setForm({
+        caseId: "",
+        title: "",
+        officerName: "",
+        officerBadge: "",
+        incidentDate: "",
+        agency: "Williamson County SO",
+      });
+    } catch (err) {
+      console.error("Failed to create case:", err.message);
+      alert("Error creating case. Please try again.");
+    }
   };
 
   // Dynamic badge styling

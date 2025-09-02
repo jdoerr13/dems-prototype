@@ -1,88 +1,131 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
-import {
-  initialCases,
-  initialEvidence,
-  initialAudits,
-  initialNotifications,
-  users,
-} from '../mock/data';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { supabase } from './SupabaseContext'
+import { toSnakeCase } from './utility';
+import { toCamelCase } from './utility';
 
 const CaseContext = createContext(null);
 
 export function CaseProvider({ children }) {
-  const [cases, setCases] = useState(initialCases);
-  const [evidence, setEvidence] = useState(initialEvidence);
-  const [audits, setAudits] = useState(initialAudits);
-  const [notifications, setNotifications] = useState(initialNotifications || []);
+  const [cases, setCases] = useState([]);
+  const [evidence, setEvidence] = useState([]);
+  const [audits, setAudits] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
+  /** -------- INITIAL LOAD -------- */
+  useEffect(() => {
+  const fetchAll = async () => {
+    try {
+      const [caseRes, evidenceRes, auditRes, notifRes] = await Promise.all([
+        supabase.from('cases').select('*'),
+        supabase.from('evidence').select('*'),
+        supabase.from('audits').select('*'),
+        supabase.from('notifications').select('*'),
+      ]);
+
+      if (caseRes.error) console.error("Cases error:", caseRes.error.message);
+      if (evidenceRes.error) console.error("Evidence error:", evidenceRes.error.message);
+      if (auditRes.error) console.error("Audits error:", auditRes.error.message);
+      if (notifRes.error) console.error("Notifications error:", notifRes.error.message);
+
+      setCases(toCamelCase(caseRes.data || []));
+      setEvidence(toCamelCase(evidenceRes.data || []));
+      setAudits(toCamelCase(auditRes.data || []));
+      setNotifications(toCamelCase(notifRes.data || []));
+      
+    } catch (err) {
+      console.error("Unexpected fetch error:", err.message);
+    }
+  };
+
+  fetchAll();
+}, []);
+
 
   /** -------- AUDITS -------- */
-  const addAudit = (entry) => {
-    const row = {
-      id: Date.now(),
+  const addAudit = async (entry) => {
+    let row = {
       timestamp: new Date().toISOString(),
       ...entry,
     };
-    setAudits((prev) => [row, ...prev]);
+    const audit = toSnakeCase(row)
+    const { data, error } = await supabase.from('audits').insert([audit]).select();
+    if (error) {
+      console.error("Insert error:", error.message);
+    }
+    if (data) setAudits((prev) => [data[0], ...prev]);
   };
 
   /** -------- NOTIFICATIONS -------- */
-  const notify = (msg) => {
+  const notify = async (msg) => {
     const n = {
-      id: Date.now(),
       message: msg,
       read: false,
       ts: new Date().toISOString(),
     };
-    setNotifications((prev) => [n, ...prev]);
+    const { data, error } = await supabase.from('notifications').insert([n]).select();
+    if (data) setNotifications((prev) => [data[0], ...prev]);
   };
 
-  const markAllRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  const markAllRead = async () => {
+    const { data } = await supabase
+      .from('notifications')
+      .update({ read: true })
+      .neq('read', true)
+      .select();
+    if (data) setNotifications((prev) =>
+      prev.map((n) => ({ ...n, read: true }))
+    );
   };
 
   /** -------- CASES -------- */
-  const addCase = (c) => {
-    setCases((prev) => [c, ...prev]);
-    addAudit({
+  const addCase = async (c) => {
+    c = toSnakeCase(c)
+    const { data, error } = await supabase.from('cases').insert([c]).select();
+    if (error) {
+      console.error("Insert error:", error.message);
+    }
+    if (data) setCases((prev) => [data[0], ...prev]);
+    await addAudit({
       actor: c.createdBy,
       action: 'CREATE_CASE',
       targetId: c.caseId,
       ip: '127.0.0.1',
     });
-    notify(`New case created: ${c.caseId}`);
+  await notify(`New case created: ${c.caseId}`);
   };
 
-  const acceptCase = (caseId, prosecutorEmail) => {
-    setCases((prev) =>
-      prev.map((c) =>
-        c.caseId === caseId
-          ? { ...c, status: 'Accepted', prosecutorEmail }
-          : c
-      )
+  const acceptCase = async (caseId, prosecutorEmail) => {
+    const { data } = await supabase
+      .from('cases')
+      .update({ status: 'Accepted', prosecutorEmail })
+      .eq('caseId', caseId)
+      .select();
+    if (data) setCases((prev) =>
+      prev.map((c) => (c.caseId === caseId ? data[0] : c))
     );
-    addAudit({
+    await addAudit({
       actor: prosecutorEmail,
       action: 'ACCEPT_CASE',
       targetId: caseId,
       ip: '127.0.0.1',
     });
-    notify(`Case ${caseId} accepted by ${prosecutorEmail}`);
+    await notify(`Case ${caseId} accepted by ${prosecutorEmail}`);
   };
 
-  const linkCoDefendant = (caseId, linkedId) => {
-    setCases((prev) =>
-      prev.map((c) =>
-        c.caseId === caseId
-          ? {
-              ...c,
-              coDefendants: Array.from(
-                new Set([...(c.coDefendants || []), linkedId])
-              ),
-            }
-          : c
-      )
+  const linkCoDefendant = async (caseId, linkedId) => {
+    const target = cases.find((c) => c.caseId === caseId);
+    const updated = {
+      coDefendants: Array.from(new Set([...(target.coDefendants || []), linkedId])),
+    };
+    const { data } = await supabase
+      .from('cases')
+      .update(updated)
+      .eq('caseId', caseId)
+      .select();
+    if (data) setCases((prev) =>
+      prev.map((c) => (c.caseId === caseId ? data[0] : c))
     );
-    addAudit({
+    await addAudit({
       actor: 'system',
       action: 'LINK_CODEFENDANT',
       targetId: `${caseId}->${linkedId}`,
@@ -90,37 +133,44 @@ export function CaseProvider({ children }) {
     });
   };
 
-  const assignDefense = (caseId, defenseEmail) => {
-    setCases((prev) =>
-      prev.map((c) =>
-        c.caseId === caseId ? { ...c, defenseEmail } : c
-      )
+  const assignDefense = async (caseId, defenseEmail) => {
+    const { data } = await supabase
+      .from('cases')
+      .update({ defenseEmail })
+      .eq('caseId', caseId)
+      .select();
+    if (data) setCases((prev) =>
+      prev.map((c) => (c.caseId === caseId ? data[0] : c))
     );
-    addAudit({
+    await addAudit({
       actor: defenseEmail,
       action: 'ASSIGN_DEFENSE',
       targetId: caseId,
       ip: '127.0.0.1',
     });
-    notify(`Defense counsel ${defenseEmail} assigned to ${caseId}`);
+    await notify(`Defense counsel ${defenseEmail} assigned to ${caseId}`);
   };
 
   /** -------- EVIDENCE -------- */
-  const addEvidence = (ev) => {
-    setEvidence((prev) => [ev, ...prev]);
-    addAudit({
+  const addEvidence = async (ev) => {
+    ev = toSnakeCase(ev)
+    const { data, error } = await supabase.from('evidence').insert([ev]).select();
+    if (error) {
+      console.error("Insert error:", error.message);
+    }
+    if (data) setEvidence((prev) => [data[0], ...prev]);
+    await addAudit({
       actor: ev.uploadedBy,
       action: 'UPLOAD_EVIDENCE',
       targetId: ev.caseId,
       ip: '127.0.0.1',
     });
-    notify(`New evidence uploaded for case ${ev.caseId}`);
+    await notify(`New evidence uploaded for case ${ev.caseId}`);
   };
 
   /** -------- VALUE -------- */
   const value = useMemo(
     () => ({
-      users,
       cases,
       evidence,
       audits,
@@ -136,9 +186,7 @@ export function CaseProvider({ children }) {
     [cases, evidence, audits, notifications]
   );
 
-  return (
-    <CaseContext.Provider value={value}>{children}</CaseContext.Provider>
-  );
+  return <CaseContext.Provider value={value}>{children}</CaseContext.Provider>;
 }
 
 export function useCases() {

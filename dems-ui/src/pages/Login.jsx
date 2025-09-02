@@ -7,14 +7,19 @@ export default function Login() {
   const [email, setEmail] = useState("lea@county.gov");
   const [role, setRole] = useState("lea");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const nav = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
+
     try {
-      await login(email, role);
-      nav("/mfa");
+      await login(email, role); // no password
+      nav("/mfa"); // simulate MFA or trigger real OTP
+    } catch (err) {
+      setError(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -26,7 +31,7 @@ export default function Login() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800">DEMS Login</h2>
           <span className="text-xs font-semibold px-2 py-1 rounded bg-blue-100 text-blue-700">
-            MFA Simulated
+            MFA Required
           </span>
         </div>
 
@@ -37,11 +42,11 @@ export default function Login() {
             </label>
             <input
               type="email"
-              className="w-full border rounded-lg px-3 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="user@agency.gov"
               required
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
 
@@ -50,9 +55,9 @@ export default function Login() {
               Role
             </label>
             <select
-              className="w-full border rounded-lg px-3 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               value={role}
               onChange={(e) => setRole(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="lea">Law Enforcement (LEA)</option>
               <option value="prosecutor">Prosecutor</option>
@@ -61,16 +66,16 @@ export default function Login() {
             </select>
           </div>
 
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
           <button
             type="submit"
             disabled={loading}
             className={`w-full py-2 px-4 rounded-lg font-semibold text-white transition ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? "Logging in…" : "Login"}
+            {loading ? "Checking…" : "Login"}
           </button>
         </form>
       </div>

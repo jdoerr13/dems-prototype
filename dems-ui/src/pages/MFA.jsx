@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function MFA() {
-  const { user } = useAuth();
+  const { user, setMfaVerified } = useAuth(); // expose setter if needed
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const nav = useNavigate();
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    if (code === "123456") { // mock OTP
+
+    // Simulated OTP check — replace with Supabase call later
+    if (code === "123456") {
+      setMfaVerified(true);
       nav("/");
     } else {
       setError("Invalid code. Try 123456.");
@@ -22,8 +25,9 @@ export default function MFA() {
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Multi-Factor Authentication</h2>
         <p className="text-sm text-gray-600 mb-6">
-          Enter the 6-digit code sent to {user?.email || "your email"}.
+          Enter the 6-digit code sent to <span className="font-medium">{user?.email || "your email"}</span>.
         </p>
+
         <form onSubmit={submit} className="space-y-4">
           <input
             type="text"

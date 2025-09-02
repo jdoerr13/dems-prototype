@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useCases } from "../contexts/CaseContext";
-import { EvidenceAPI } from "../api";
+import { supabase } from "../contexts/SupabaseContext";
 
 export default function EvidenceUpload({ caseId, uploadedBy }) {
   const { addEvidence } = useCases();
@@ -8,27 +8,45 @@ export default function EvidenceUpload({ caseId, uploadedBy }) {
   const [busy, setBusy] = useState(false);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!file) return;
-    setBusy(true);
-    try {
-      // Stubbed backend call (replace with real API later)
-      await EvidenceAPI.upload({ file, caseId });
-      const ev = {
-        id: "ev-" + Date.now(),
-        caseId,
-        filename: file.name,
-        type: file.type || "application/octet-stream",
-        size: file.size,
-        uploadedBy,
-        url: URL.createObjectURL(file),
-      };
-      addEvidence(ev);
-      setFile(null);
-    } finally {
-      setBusy(false);
-    }
-  };
+  e.preventDefault();
+  if (!file) return;
+  setBusy(true);
+  try {
+    // Upload to Supabase Storage
+    const filePath = `evidence/${caseId}/${Date.now()}-${file.name}`;
+    const { data, error } = await supabase.storage
+      .from("evidence") // your bucket name
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) throw error;
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from("evidence")
+      .getPublicUrl(filePath);
+
+    // Construct evidence object
+    const ev = {
+      id: "ev-" + Date.now(),
+      caseId,
+      filename: file.name,
+      type: file.type || "application/octet-stream",
+      size: file.size,
+      uploadedBy,
+      url: urlData.publicUrl,
+    };
+
+    await addEvidence(ev); // This now inserts into Supabase via CaseContext
+    setFile(null);
+  } catch (err) {
+    console.error("Upload failed:", err.message);
+  } finally {
+    setBusy(false);
+  }
+};
 
   return (
     <form
