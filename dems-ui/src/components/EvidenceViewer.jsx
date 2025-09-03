@@ -1,104 +1,78 @@
+// src/components/EvidenceViewer.jsx
 import React from "react";
 
 export default function EvidenceViewer({ item }) {
-  if (!item) {
-    return <p className="text-gray-500 italic">No evidence selected.</p>;
-  }
+  if (!item) return null;
 
-  const { filename, type, url } = item;
-
-  // --- Video Preview ---
-  if (type?.startsWith("video")) {
-    return (
-      <div>
+  const renderPreview = () => {
+    if (item.type?.startsWith("video")) {
+      return (
         <video
           controls
-          className="w-full max-h-[500px] rounded shadow"
-          src={url}
+          className="w-full rounded"
+          src={item.url}
+          style={{ maxHeight: "400px" }}
         />
-        <p className="mt-2 text-sm text-gray-600">{filename}</p>
-      </div>
-    );
-  }
-
-  // --- Image Preview ---
-  if (type?.startsWith("image")) {
-    return (
-      <div>
+      );
+    }
+    if (item.type?.startsWith("image")) {
+      return (
         <img
-          src={url}
-          alt={filename}
-          className="max-h-[500px] rounded shadow mx-auto"
+          alt={item.filename}
+          src={item.url}
+          className="max-h-96 rounded border"
         />
-        <p className="mt-2 text-sm text-gray-600">{filename}</p>
-      </div>
-    );
-  }
-
-  // --- PDF Preview ---
-  if (type === "application/pdf") {
-    return (
-      <div>
+      );
+    }
+    if (item.type?.includes("pdf")) {
+      return (
         <iframe
-          src={url}
-          title={filename}
-          className="w-full h-[600px] border rounded"
+          title={item.filename}
+          src={item.url}
+          className="w-full h-96 border rounded"
         />
-        <p className="mt-2 text-sm text-gray-600">{filename}</p>
-      </div>
-    );
-  }
-
-  // --- DOCX / Word files ---
-  if (
-    type ===
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
+      );
+    }
     return (
-      <div className="p-6 border rounded bg-gray-50 text-center">
-        <p className="mb-3 text-sm text-gray-700">
-          Word document preview is not available in-browser.
+      <div className="p-4 bg-gray-50 rounded border">
+        <p className="text-sm text-gray-600">
+          No preview available for this file type.
         </p>
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          className="px-4 py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700"
-        >
-          Download {filename}
-        </a>
       </div>
     );
-  }
+  };
 
-  // --- Plain text ---
-  if (type?.startsWith("text")) {
-    return (
-      <div className="bg-gray-100 border rounded p-4 overflow-y-auto max-h-[500px] text-sm">
-        <iframe
-          src={url}
-          title={filename}
-          className="w-full h-[400px] bg-white"
-        />
-        <p className="mt-2 text-sm text-gray-600">{filename}</p>
-      </div>
-    );
-  }
-
-  // --- Fallback ---
   return (
-    <div className="p-6 border rounded bg-gray-50 text-center">
-      <p className="mb-3 text-sm text-gray-700">
-        Preview not available for this file type.
-      </p>
-      <a
-        href={url}
-        target="_blank"
-        rel="noreferrer"
-        className="px-4 py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700"
-      >
-        Download {filename}
-      </a>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-gray-800">{item.filename}</h3>
+
+      {renderPreview()}
+
+      {/* Show AI tags if available */}
+      {item.aiTags && item.aiTags.length > 0 && (
+        <div className="mt-4">
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">
+            AI Detected Tags
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {item.aiTags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="px-2 py-1 text-xs rounded bg-purple-100 text-purple-700 font-medium"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* File metadata */}
+      <div className="text-xs text-gray-500 mt-2">
+        <p>Type: {item.type}</p>
+        {item.size && <p>Size: {(item.size / 1024 / 1024).toFixed(2)} MB</p>}
+        <p>Uploaded By: {item.uploadedBy}</p>
+      </div>
     </div>
   );
 }

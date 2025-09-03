@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useDashboardData from "../hooks/useDashboardData";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis } from "recharts";
 import { saveAs } from "file-saver";
 
 function exportAudits(audits) {
@@ -31,7 +31,7 @@ export default function AdminConsoleDashboard() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-8">
       <h1 className="text-3xl font-bold text-gray-900">Admin — Dashboard</h1>
-      <p className="text-gray-600">Oversight, audits, and notifications.</p>
+      <p className="text-gray-600">Oversight, audits, notifications, and AI analytics.</p>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -57,7 +57,28 @@ export default function AdminConsoleDashboard() {
         </button>
       </div>
 
-      {/* Charts */}
+      {/* AI Tag Analytics */}
+      <div className="bg-white rounded-xl shadow p-6">
+        <h2 className="font-semibold mb-3">AI Tag Analytics</h2>
+        <ResponsiveContainer width="100%" height={250}>
+          <BarChart data={charts.aiTags}>
+            <XAxis dataKey="name" /><YAxis /><Tooltip />
+            <Bar dataKey="value" fill="#8b5cf6" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* System Metrics */}
+      <div className="bg-white rounded-xl shadow p-6">
+        <h2 className="font-semibold mb-3">System Metrics</h2>
+        <ul className="text-sm space-y-2">
+          <li><strong>Storage:</strong> 350 TB (simulated)</li>
+          <li><strong>Annual Case Load:</strong> 9,000 cases/year</li>
+          <li><strong>Defense Attorneys:</strong> 650 registered</li>
+        </ul>
+      </div>
+
+      {/* Cases by Agency */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-3">Cases by Agency</h2>
         <ResponsiveContainer width="100%" height={250}>

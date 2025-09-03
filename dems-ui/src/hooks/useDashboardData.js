@@ -1,9 +1,11 @@
+// src/hooks/useDashboardData.js
 import { useMemo } from "react";
 import { useCases } from "../contexts/CaseContext";
 
 export default function useDashboardData() {
   const { cases = [], evidence = [], audits = [], notifications = [] } = useCases();
 
+  // ---------- COUNTS ----------
   const counts = useMemo(() => ({
     totalCases: cases.length,
     acceptedCases: cases.filter(c => c.status === "Accepted").length,
@@ -15,6 +17,7 @@ export default function useDashboardData() {
     defenseAssigned: cases.filter(c => !!c.defenseEmail).length,
   }), [cases, evidence, audits, notifications]);
 
+  // ---------- CHART DATA ----------
   const charts = useMemo(() => {
     const casesByStatus = [
       { name: "Submitted", value: counts.submittedCases },
@@ -27,7 +30,11 @@ export default function useDashboardData() {
       { name: "Image", value: evidence.filter(ev => ev.type?.toLowerCase().startsWith("image")).length },
       {
         name: "Other",
-        value: evidence.filter(ev => ev.type && !ev.type.toLowerCase().startsWith("video") && !ev.type.toLowerCase().startsWith("image")).length
+        value: evidence.filter(ev =>
+          ev.type &&
+          !ev.type.toLowerCase().startsWith("video") &&
+          !ev.type.toLowerCase().startsWith("image")
+        ).length
       },
     ];
 
@@ -41,7 +48,16 @@ export default function useDashboardData() {
 
     const recentAudits = audits.slice(0, 5);
 
-    return { casesByStatus, evidenceByType, casesByAgency, recentAudits };
+    // NEW: AI tag frequency
+    const aiTagMap = {};
+    evidence.forEach(ev => {
+      (ev.aiTags || []).forEach(tag => {
+        aiTagMap[tag] = (aiTagMap[tag] || 0) + 1;
+      });
+    });
+    const aiTags = Object.entries(aiTagMap).map(([name, value]) => ({ name, value }));
+
+    return { casesByStatus, evidenceByType, casesByAgency, recentAudits, aiTags };
   }, [cases, evidence, audits, counts]);
 
   return { counts, charts, cases, evidence, audits, notifications };

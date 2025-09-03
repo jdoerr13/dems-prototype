@@ -1,15 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useDashboardData from "../hooks/useDashboardData";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 
 function StatCard({ title, value, color, path }) {
   const card = (
     <div className="bg-white rounded-xl shadow p-6 flex flex-col items-start hover:shadow-lg cursor-pointer">
       <h3 className="text-gray-700 text-sm font-medium mb-2">{title}</h3>
-      <span className={`px-3 py-1 rounded text-white font-bold text-lg ${color}`}>
-        {value}
-      </span>
+      <span className={`px-3 py-1 rounded text-white font-bold text-lg ${color}`}>{value}</span>
     </div>
   );
   return path ? <Link to={path}>{card}</Link> : card;
@@ -22,7 +20,10 @@ export default function LEADashboard() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-8">
       <h1 className="text-3xl font-bold text-gray-900">LEA — Dashboard</h1>
-      <p className="text-gray-600">Submissions, uploads, and custody tracking.</p>
+      <p className="text-gray-600">Submissions, uploads, custody tracking, and compliance.</p>
+      <span className="inline-block px-3 py-1 text-xs font-semibold rounded bg-green-100 text-green-700">
+        CJIS / FedRAMP Compliant (Simulated)
+      </span>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -59,19 +60,21 @@ export default function LEADashboard() {
         </div>
       </div>
 
-      {/* Lists */}
+      {/* Uploads per Day */}
       <div className="bg-white rounded-xl shadow p-6">
-        <h2 className="font-semibold mb-3">Recent Evidence</h2>
-        <ul className="divide-y text-sm">
-          {evidence.slice(0, 8).map(ev => (
-            <li key={ev.id} className="py-2 flex justify-between">
-              <span>{ev.filename}</span>
-              <span className="text-gray-500">{ev.type}</span>
-            </li>
-          ))}
-        </ul>
+        <h2 className="font-semibold mb-3">Uploads per Day</h2>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={charts.recentAudits.map(a => ({
+            date: new Date(a.timestamp).toLocaleDateString(),
+            count: 1
+          }))}>
+            <XAxis dataKey="date" /><YAxis /><Tooltip />
+            <Line type="monotone" dataKey="count" stroke="#10b981" />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
+      {/* Recent Custody Events */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-3">Recent Custody Events</h2>
         <ul className="divide-y text-sm">

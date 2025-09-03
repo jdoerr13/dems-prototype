@@ -32,4 +32,38 @@ export const CaseAPI = {
   }
 };
 
-export default api;
+// export default api;
+
+// import axios from "axios";
+
+// const API = axios.create({
+//   baseURL: import.meta.env.VITE_API_URL,
+// });
+
+// // Attach token automatically if available
+// API.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
+// // Auth
+// export const signup = (data) => API.post("/auth/signup", data);
+// export const login = (data) => API.post("/auth/login", data);
+
+// // Cases
+// export const createCase = (data) => API.post("/cases", data);
+// export const getCases = () => API.get("/cases");
+
+// // Evidence
+// export const uploadEvidence = (caseId, data) =>
+//   API.post(`/evidence/${caseId}`, data);
+// export const getEvidence = (caseId) =>
+//   API.get(`/evidence/${caseId}`);
+
+// export const EvidenceAPI = {
+//   upload: (caseId, data) => uploadEvidence(caseId, data),
+//   list: (caseId) => getEvidence(caseId),
+// };
