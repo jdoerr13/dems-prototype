@@ -1,68 +1,117 @@
-// import React from "react";
-// import { BarChart } from "lucide-react";
-
-// export default function AnalyticsReporting() {
-//   return (
-//     <section>
-//       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-//         <BarChart className="text-orange-600" /> Analytics & Reporting
-//         <span className="ml-2 badge phase3">Phase III – Stub</span>
-//       </h2>
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//         <FeatureCard key={0} title="Filtering" description="Filter by agency, officer, date, evidence type." />
-//         <FeatureCard key={1} title="Custom Reports" description="Generate PDF/CSV exports for court or audits." />
-//         <FeatureCard key={2} title="KPIs" description="Track time-to-accept, discovery SLAs, backlog." />
-//       </div>
-//     </section>
-//   );
-// }
-
-// function FeatureCard({ title, description }) {
-//   return (
-//     <div className="bg-white rounded-lg border p-4 shadow-sm">
-//       <h3 className="font-semibold">{title}</h3>
-//       <p className="text-sm text-gray-600 mt-1">{description}</p>
-//     </div>
-//   );
-// }
-
-// pages/stubs/Analytics.jsx
+// src/pages/Analytics.jsx
 import React from "react";
-import useDashboardData from "../../hooks/useDashboardData";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart3,
+  Clock,
+  FileText,
+  ShieldCheck,
+  Activity,
+} from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 
-export default function AnalyticsPage() {
-  const { charts } = useDashboardData();
-  const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+// Mock evidence uploads per month
+const mockUploadData = [
+  { month: "Jan", uploads: 42 },
+  { month: "Feb", uploads: 58 },
+  { month: "Mar", uploads: 71 },
+  { month: "Apr", uploads: 65 },
+  { month: "May", uploads: 89 },
+  { month: "Jun", uploads: 120 },
+  { month: "Jul", uploads: 98 },
+];
 
+export default function Analytics() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-      <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Analytics</h2>
+          <p className="text-gray-600">
+            Insights into case activity, evidence trends, and performance
+            metrics. <span className="font-semibold">Phase II – Planned</span>
+          </p>
+        </div>
+        <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
+          Future Feature
+        </span>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold mb-3">Cases by Status</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={charts.casesByStatus}>
-              <XAxis dataKey="name" /><YAxis /><Tooltip />
-              <Bar dataKey="value" fill="#3b82f6" />
+      {/* Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <FeatureCard
+          icon={BarChart3}
+          title="Evidence Upload Trends"
+          description="Visualize daily and monthly evidence uploads across agencies."
+        />
+        <FeatureCard
+          icon={Clock}
+          title="Case Processing Times"
+          description="Track how long cases remain in Submitted vs Accepted state."
+        />
+        <FeatureCard
+          icon={FileText}
+          title="Discovery Insights"
+          description="Monitor how much evidence is linked to accepted cases."
+        />
+        <FeatureCard
+          icon={ShieldCheck}
+          title="Chain of Custody Integrity"
+          description="Future anomaly detection on audit logs (tampering, gaps)."
+        />
+        <FeatureCard
+          icon={Activity}
+          title="AI-Powered Insights"
+          description="Compare patterns across case types (e.g., narcotics vs cybercrime)."
+        />
+      </div>
+
+      {/* Mock Chart Section */}
+      <div className="bg-white rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          Example Visualization (Mock Data)
+        </h3>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={mockUploadData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="uploads" fill="#3b82f6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold mb-3">Evidence by Type</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie data={charts.evidenceByType} dataKey="value" nameKey="name" outerRadius={80} label>
-                {charts.evidenceByType.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <p className="text-xs text-gray-500 mt-3 italic">
+          *Demo only – not live data*
+        </p>
       </div>
     </section>
+  );
+}
+
+function FeatureCard({ icon: Icon, title, description }) {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col hover:shadow-lg transition">
+      <div className="flex items-center gap-3 mb-3">
+        <Icon className="w-6 h-6 text-blue-600" />
+        <h3 className="font-semibold text-gray-800">{title}</h3>
+      </div>
+      <p className="text-sm text-gray-600 flex-1">{description}</p>
+      <button
+        disabled
+        className="mt-4 px-3 py-1 rounded bg-gray-100 text-gray-400 text-sm cursor-not-allowed"
+      >
+        Coming Soon
+      </button>
+    </div>
   );
 }

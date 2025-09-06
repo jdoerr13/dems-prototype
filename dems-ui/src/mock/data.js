@@ -1,5 +1,3 @@
-// data.js
-
 // -------------------------------------------------------------------
 // USERS
 // -------------------------------------------------------------------
@@ -50,6 +48,126 @@ const baseCases = [
   { caseId: "C-1008", title: "Cybercrime Ring", status: "Submitted", officerName: "Officer Daniels", officerBadge: "6666", agency: "Cybercrime Task Force", defenseEmail: null },
   { caseId: "C-1009", title: "Drug Trafficking", status: "Accepted", officerName: "Officer Carter", officerBadge: "7777", agency: "Narcotics Division", defenseEmail: "defense4@lawfirm.com" },
   { caseId: "C-1010", title: "Assault Downtown Bar", status: "Submitted", officerName: "Officer Nguyen", officerBadge: "8888", agency: "Eastside Police Department", defenseEmail: null },
+  {
+    caseId: "C-2011",
+    title: "State vs. Alvarez – Motion to Suppress",
+    officerName: "Officer Cruz",
+    officerBadge: "B4455",
+    incidentDate: "2025-08-29",
+    agency: "County Sheriff’s Office",
+    createdBy: "lea@metro.gov",
+    status: "Submitted",
+    prosecutorEmail: null,
+    defenseEmail: null,
+    coDefendants: [],
+  },
+  {
+    caseId: "C-2012",
+    title: "State vs. Chen – Multi-Defendant Fraud",
+    officerName: "Officer Lopez",
+    officerBadge: "C9988",
+    incidentDate: "2025-08-30",
+    agency: "Downtown Precinct",
+    createdBy: "lea@metro.gov",
+    status: "Submitted",
+    prosecutorEmail: null,
+    defenseEmail: null,
+    coDefendants: ["C-2013"],
+  },
+  {
+    caseId: "C-2013",
+    title: "State vs. Chen (Co-Defendant)",
+    officerName: "Officer Lopez",
+    officerBadge: "C9988",
+    incidentDate: "2025-08-30",
+    agency: "Downtown Precinct",
+    createdBy: "lea@metro.gov",
+    status: "Submitted",
+    prosecutorEmail: null,
+    defenseEmail: null,
+    coDefendants: ["C-2012"],
+  },
+  {
+    caseId: "C-2014",
+    title: "State vs. Banks – Plea Negotiation",
+    officerName: "Officer Adams",
+    officerBadge: "D7788",
+    incidentDate: "2025-08-31",
+    agency: "Metro Police Department",
+    createdBy: "lea@metro.gov",
+    status: "Accepted",
+    prosecutorEmail: "prosecutor@justice.org",
+    defenseEmail: "defense5@lawfirm.com",
+    coDefendants: [],
+  },
+
+  // EXTRA DEFENSE CASES
+  {
+    caseId: "C-2020",
+    title: "State vs. Johnson – Burglary",
+    officerName: "Officer Cruz",
+    officerBadge: "D4455",
+    incidentDate: "2025-08-10",
+    agency: "Metro Police Department",
+    createdBy: "lea@metro.gov",
+    status: "Accepted",
+    prosecutorEmail: "prosecutor@justice.org",
+    defenseEmail: "defense6@lawfirm.com",
+    coDefendants: [],
+  },
+  {
+    caseId: "C-2021",
+    title: "State vs. Ramirez – Narcotics",
+    officerName: "Officer Lee",
+    officerBadge: "E5522",
+    incidentDate: "2025-08-15",
+    agency: "Narcotics Division",
+    createdBy: "lea@metro.gov",
+    status: "Accepted",
+    prosecutorEmail: "prosecutor@justice.org",
+    defenseEmail: "defense7@lawfirm.com",
+    coDefendants: [],
+  },
+  {
+    caseId: "C-2022",
+    title: "State vs. Patel – Fraudulent ID",
+    officerName: "Officer Daniels",
+    officerBadge: "F8833",
+    incidentDate: "2025-08-17",
+    agency: "County Sheriff’s Office",
+    createdBy: "lea@metro.gov",
+    status: "Submitted",
+    prosecutorEmail: null,
+    defenseEmail: "defense8@lawfirm.com",
+    coDefendants: [],
+  },
+{
+  caseId: "C-2023",
+  title: "State vs. Carter – Weapons Charge",
+  officerName: "Officer Kim",
+  officerBadge: "G9922",
+  incidentDate: "2025-08-18",
+  agency: "Highway Patrol Unit",
+  createdBy: "lea@metro.gov",
+  status: "Accepted",
+  prosecutorEmail: "prosecutor@justice.org",
+  defenseEmail: "defense9@lawfirm.com",
+  coDefendants: ["C-2024"],   // 🔥 new line
+},
+  {
+  caseId: "C-2024",
+  title: "State vs. Carter (Co-Defendant)",
+  officerName: "Officer Kim",
+  officerBadge: "G9922",
+  incidentDate: "2025-08-18",
+  agency: "Highway Patrol Unit",
+  createdBy: "lea@metro.gov",
+  status: "Accepted",
+  prosecutorEmail: "prosecutor@justice.org",
+  defenseEmail: "defense10@lawfirm.com",
+  coDefendants: ["C-2023"],
+},
+
 ];
 
 // -------------------------------------------------------------------
@@ -110,9 +228,6 @@ function randomTags() {
 // -------------------------------------------------------------------
 // EVIDENCE
 // -------------------------------------------------------------------
-// -------------------------------------------------------------------
-// EVIDENCE
-// -------------------------------------------------------------------
 export const initialEvidence = [
   {
     id: "ev-1",
@@ -145,8 +260,160 @@ export const initialEvidence = [
     url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
     aiTags: randomTags(),
   })),
-];
+  // Extra targeted defense evidence
+  {
+    id: "ev-2020-1",
+    caseId: "C-2020",
+    filename: "surveillance_cam.mp4",
+    type: "video/mp4",
+    size: 120_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+    aiTags: ["face", "vehicle"],
+  },
+  {
+    id: "ev-2021-1",
+    caseId: "C-2021",
+    filename: "drug_lab_photo.jpg",
+    type: "image/jpeg",
+    size: 4_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://images.unsplash.com/photo-1607082349566-1873725e4f46?q=80&w=1200",
+    aiTags: ["drug paraphernalia", "cash"],
+  },
+  // --- Extra defense-targeted evidence for richer demo ---
+{
+  id: "ev-2020-2",
+  caseId: "C-2020",
+  filename: "fingerprint_scan.jpg",
+  type: "image/jpeg",
+  size: 1_800_000,
+  uploadedBy: "lea@metro.gov",
+  url: "https://images.unsplash.com/photo-1616628188464-5b962f8d8336?q=80&w=1200",
+  aiTags: ["fingerprint", "suspect"],
+},
+{
+  id: "ev-2021-2",
+  caseId: "C-2021",
+  filename: "lab_report.pdf",
+  type: "application/pdf",
+  size: 950_000,
+  uploadedBy: "prosecutor@justice.org",
+  url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+  aiTags: ["document", "drug paraphernalia"],
+},
+{
+  id: "ev-2022-2",
+  caseId: "C-2022",
+  filename: "surveillance_still.jpg",
+  type: "image/jpeg",
+  size: 2_400_000,
+  uploadedBy: "lea@metro.gov",
+  url: "https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1200",
+  aiTags: ["suspect", "location marker"],
+},
+{
+  id: "ev-2023-3",
+  caseId: "C-2023",
+  filename: "ballistics_report.pdf",
+  type: "application/pdf",
+  size: 1_200_000,
+  uploadedBy: "prosecutor@justice.org",
+  url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+  aiTags: ["weapon", "document"],
+},
+{
+  id: "ev-2024-2",
+  caseId: "C-2024",
+  filename: "jail_call_audio.mp3",
+  type: "audio/mpeg",
+  size: 7_000_000,
+  uploadedBy: "lea@metro.gov",
+  url: "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav",
+  aiTags: ["voice", "timestamp"],
+},
 
+  {
+    id: "ev-2022-1",
+    caseId: "C-2022",
+    filename: "fake_id_scan.pdf",
+    type: "application/pdf",
+    size: 1_500_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    aiTags: ["document", "suspect"],
+  },
+  {
+    id: "ev-2023-1",
+    caseId: "C-2023",
+    filename: "weapons_confiscated.jpg",
+    type: "image/jpeg",
+    size: 3_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://images.unsplash.com/photo-1604152135912-04a579b4e21c?q=80&w=1200",
+    aiTags: ["weapon", "evidence bag"],
+  },
+  {
+    id: "ev-2023-2",
+    caseId: "C-2023",
+    filename: "dashcam_co_defendant.mp4",
+    type: "video/mp4",
+    size: 150_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+    aiTags: ["vehicle", "timestamp", "face"],
+  },
+  {
+    id: "ev-2024-1",
+    caseId: "C-2024",
+    filename: "witness_statement.pdf",
+    type: "application/pdf",
+    size: 800_000,
+    uploadedBy: "prosecutor@justice.org",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    aiTags: ["document", "text"],
+  },
+  {
+    id: "ev-2011-1",
+    caseId: "C-2011",
+    filename: "traffic_stop_audio.mp3",
+    type: "audio/mpeg",
+    size: 5_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav",
+    aiTags: ["voice", "timestamp"],
+  },
+  {
+    id: "ev-2012-1",
+    caseId: "C-2012",
+    filename: "bank_records.pdf",
+    type: "application/pdf",
+    size: 1_200_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    aiTags: ["document", "cash"],
+  },
+  {
+    id: "ev-2013-1",
+    caseId: "C-2013",
+    filename: "security_cam.mp4",
+    type: "video/mp4",
+    size: 300_000_000,
+    uploadedBy: "lea@metro.gov",
+    url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+    aiTags: ["face", "license plate", "vehicle"],
+  },
+  {
+    id: "ev-2014-1",
+    caseId: "C-2014",
+    filename: "plea_agreement_draft.docx",
+    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    size: 250_000,
+    uploadedBy: "prosecutor@justice.org",
+    url: "https://file-examples.com/storage/fe1f88dcb88c/2017/02/file-sample_100kB.docx",
+    aiTags: ["document", "text"],
+  },
+];
 
 // -------------------------------------------------------------------
 // AUDITS
@@ -162,6 +429,22 @@ export const initialAudits = [
     targetId: `C-${1000 + (i % 40)}`,
     ip: `192.168.1.${i % 255}`,
   })),
+
+  // ✅ Seed explicit ACCEPT_CASE & REJECT_CASE logs
+  { id: "A-999", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-2014", ip: "127.0.0.1" },
+  { id: "A-1000", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ASSIGN_DEFENSE", targetId: "C-2014", ip: "127.0.0.1" },
+
+  // Extra ACCEPT_CASE logs
+  { id: "A-1001", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-1002", ip: "127.0.0.1" },
+  { id: "A-1002", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-1004", ip: "127.0.0.1" },
+  { id: "A-1003", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-1007", ip: "127.0.0.1" },
+  { id: "A-1004", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-1009", ip: "127.0.0.1" },
+  { id: "A-1005", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "ACCEPT_CASE", targetId: "C-2020", ip: "127.0.0.1" },
+
+  // Extra REJECT_CASE logs
+  { id: "A-1006", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "REJECT_CASE", targetId: "C-1005", ip: "127.0.0.1" },
+  { id: "A-1007", timestamp: new Date().toISOString(), actor: "prosecutor@justice.org", action: "REJECT_CASE", targetId: "C-2022", ip: "127.0.0.1" },
+  { id: "A-1008", timestamp: new Date().toISOString(), actor: "admin@system.gov", action: "REJECT_CASE", targetId: "C-1010", ip: "127.0.0.1" },
 ];
 
 // -------------------------------------------------------------------
@@ -176,4 +459,17 @@ export const initialNotifications = [
     message: `System notification ${i + 4}`,
     ts: Date.now() - (i + 1) * 60000,
   })),
+  { id: "N-101", message: "Case C-2011 requires suppression hearing scheduling", ts: Date.now() - 200000 },
+  { id: "N-102", message: "Evidence uploaded for multi-defendant case C-2012", ts: Date.now() - 300000 },
+  { id: "N-103", message: "New plea negotiation notes filed in C-2014", ts: Date.now() - 400000 },
+];
+
+// -------------------------------------------------------------------
+// STUBBED AI TAGS
+// -------------------------------------------------------------------
+export const initialAiTags = [
+  { name: "faces", value: 23 },
+  { name: "license plates", value: 12 },
+  { name: "weapons", value: 7 },
+  { name: "drug paraphernalia", value: 5 },
 ];
