@@ -9,6 +9,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  LabelList,
 } from "recharts";
 import {
   ShieldCheck,
@@ -73,14 +74,16 @@ export default function DefenseDashboard() {
     toast.success("👥 Assistant account created");
   };
 
-  // Redaction Alerts Chart
-const redactionAlerts = useMemo(() => {
-  return charts.aiTags.filter((t) =>
-    ["face", "faces", "license plate", "license plates"].includes(
-      t.name.toLowerCase()
-    )
+  // Mock AI Redaction Alerts (clarified categories)
+  const redactionAlerts = useMemo(
+    () => [
+      { name: "Faces Detected", value: 14 },
+      { name: "License Plates", value: 7 },
+      { name: "Sensitive Docs", value: 5 },
+      { name: "PII / Text", value: 3 },
+    ],
+    []
   );
-}, [charts.aiTags]);
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-10">
@@ -91,7 +94,7 @@ const redactionAlerts = useMemo(() => {
             Defense — Dashboard
           </h1>
           <p className="text-gray-600">
-            Discovery packets, delegation, and redaction alerts.
+            Discovery packets, delegation, and AI-based redaction alerts.
           </p>
         </div>
         <div className="self-start flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
@@ -100,7 +103,7 @@ const redactionAlerts = useMemo(() => {
         </div>
       </div>
 
-      {/* KPIs (all original, now clickable or locked) */}
+      {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           title="Assigned Cases"
@@ -147,13 +150,20 @@ const redactionAlerts = useMemo(() => {
 
       {/* Redaction Alerts */}
       <div className="bg-white rounded-xl shadow p-6">
-        <h2 className="font-semibold mb-4">AI Redaction Alerts</h2>
+        <h2 className="font-semibold mb-2">AI Redaction Alerts</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Mock AI analysis of uploaded evidence has flagged{" "}
+          <strong>sensitive elements</strong> like faces, license plates, and
+          documents requiring review before release.
+        </p>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={redactionAlerts}>
             <XAxis dataKey="name" />
             <YAxis allowDecimals={false} />
             <Tooltip />
-            <Bar dataKey="value" fill="#f59e0b" />
+            <Bar dataKey="value" fill="#f59e0b">
+              <LabelList dataKey="value" position="top" />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

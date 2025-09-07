@@ -10,6 +10,7 @@ import {
   Tooltip,
   BarChart,
   Bar,
+  LabelList,
 } from "recharts";
 import {
   ShieldCheck,
@@ -102,7 +103,10 @@ export default function LEADashboard() {
   }, [audits]);
 
   const casesByAgency = useMemo(
-    () => charts.casesByAgency.sort((a, b) => b.value - a.value).slice(0, 8),
+    () =>
+      charts.casesByAgency
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 8),
     [charts.casesByAgency]
   );
 
@@ -164,8 +168,11 @@ export default function LEADashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Uploads over time */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="font-semibold mb-4">Evidence Uploads (Last 14 Days)</h2>
-          <ResponsiveContainer width="100%" height={240}>
+          <h2 className="font-semibold mb-2">Evidence Uploads (Last 14 Days)</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Daily count of digital evidence files submitted by LEA users.
+          </p>
+          <ResponsiveContainer width="100%" height={260}>
             <LineChart data={uploadsOverTime}>
               <XAxis dataKey="date" />
               <YAxis allowDecimals={false} />
@@ -175,7 +182,8 @@ export default function LEADashboard() {
                 dataKey="uploads"
                 stroke="#3b82f6"
                 strokeWidth={2}
-                dot={false}
+                dot={{ r: 3 }}
+                activeDot={{ r: 5 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -183,13 +191,27 @@ export default function LEADashboard() {
 
         {/* Top submitting agencies */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="font-semibold mb-4">Top Submitting Agencies</h2>
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={casesByAgency}>
-              <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
+          <h2 className="font-semibold mb-2">Top Submitting Agencies</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Agencies ranked by number of weekly case submissions.
+          </p>
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart
+              data={casesByAgency}
+              layout="vertical"
+              margin={{ right: 30, }}
+            >
+              <XAxis type="number" allowDecimals={false} />
+              <YAxis
+                type="category"
+                dataKey="name"
+                width={180}
+                tick={{ fontSize: 12 }}
+              />
               <Tooltip />
-              <Bar dataKey="value" fill="#10b981" />
+              <Bar dataKey="value" fill="#10b981">
+                <LabelList dataKey="value" position="right" />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -231,7 +253,7 @@ export default function LEADashboard() {
         </ul>
       </div>
 
-      {/* Bio Sketch Generator (new RFI-required feature) */}
+      {/* Bio Sketch Generator */}
       <div className="bg-white rounded-xl shadow p-6 space-y-4">
         <h2 className="font-semibold flex items-center gap-2">
           <UserCircle2 className="w-5 h-5 text-gray-600" /> Bio Sketch Generator

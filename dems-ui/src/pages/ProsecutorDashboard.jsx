@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
 } from "recharts";
 import {
   ShieldCheck,
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 import DiscoveryExport from "../components/DiscoveryExport";
 
+// ------------------ StatCard ------------------
 function StatCard({ title, value, subtitle, color, icon: Icon, path, locked }) {
   const content = (
     <div
@@ -43,11 +45,12 @@ function StatCard({ title, value, subtitle, color, icon: Icon, path, locked }) {
   return path && !locked ? <Link to={path}>{content}</Link> : content;
 }
 
+// ------------------ Page ------------------
 export default function ProsecutorDashboard() {
-  const { counts, cases, evidence, charts } = useDashboardData();
+  const { counts, cases, evidence } = useDashboardData();
   const pending = cases.filter((c) => c.status === "Submitted");
 
-  // Track last values for toasts
+  // Toast notifications
   const lastPending = useRef(0);
   const lastEvidence = useRef(0);
   useEffect(() => {
@@ -61,15 +64,26 @@ export default function ProsecutorDashboard() {
     lastEvidence.current = evidence.length;
   }, [pending.length, evidence.length]);
 
-  // Bar chart for accepted vs rejected
-  const caseOutcomes = useMemo(
-    () => [
-      { name: "Accepted", value: counts.acceptedCases },
-      { name: "Rejected", value: counts.rejectedCases },
-    ],
-    [counts.acceptedCases, counts.rejectedCases]
-  );
+  // ---------------- Mock Data for Charts ----------------
+  // Case outcomes trend by month
+  const caseOutcomesByMonth = [
+    { month: "May", Accepted: 12, Rejected: 3 },
+    { month: "Jun", Accepted: 18, Rejected: 5 },
+    { month: "Jul", Accepted: 14, Rejected: 4 },
+    { month: "Aug", Accepted: 21, Rejected: 6 },
+    { month: "Sep", Accepted: 19, Rejected: 7 },
+  ];
 
+  // AI flags distribution
+  const aiAlerts = [
+    { name: "Weapons", value: 14 },
+    { name: "Faces", value: 22 },
+    { name: "License Plates", value: 9 },
+    { name: "Drug Paraphernalia", value: 6 },
+    { name: "Alcohol", value: 4 },
+  ];
+
+  // ---------------- Render ----------------
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-10">
       {/* Header */}
@@ -88,7 +102,7 @@ export default function ProsecutorDashboard() {
         </div>
       </div>
 
-      {/* KPIs */}
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Pending Approvals"
@@ -124,28 +138,34 @@ export default function ProsecutorDashboard() {
         />
       </div>
 
-      {/* Case Outcomes + AI Alerts */}
+      {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Case Outcomes Trend */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="font-semibold mb-4">Case Outcomes</h2>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={caseOutcomes}>
-              <XAxis dataKey="name" />
+          <h2 className="font-semibold mb-2">Case Outcomes Over Time</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Monthly trends of accepted vs rejected cases (mock data).
+          </p>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={caseOutcomesByMonth}>
+              <XAxis dataKey="month" />
               <YAxis allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey="value" fill="#3b82f6" />
+              <Legend />
+              <Bar dataKey="Accepted" fill="#16a34a" />
+              <Bar dataKey="Rejected" fill="#dc2626" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
+        {/* AI Alerts */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="font-semibold mb-4">AI Flag Alerts</h2>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart
-              data={charts.aiTags.filter((t) =>
-                ["weapon", "firearm", "drug paraphernalia"].includes(t.name)
-              )}
-            >
+          <h2 className="font-semibold mb-2">AI Flag Alerts</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            AI-flagged categories across recent evidence (mock data).
+          </p>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={aiAlerts}>
               <XAxis dataKey="name" />
               <YAxis allowDecimals={false} />
               <Tooltip />
@@ -155,7 +175,7 @@ export default function ProsecutorDashboard() {
         </div>
       </div>
 
-      {/* Evidence Log Export (new feature) */}
+      {/* Evidence Log Export */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-4">Evidence Log</h2>
         <p className="text-sm text-gray-500 mb-3">
@@ -167,7 +187,7 @@ export default function ProsecutorDashboard() {
         </button>
       </div>
 
-      {/* Recent Cases + Discovery Export */}
+      {/* Recent Cases */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-4">Recent Cases</h2>
         <ul className="divide-y text-sm">

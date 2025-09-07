@@ -47,11 +47,11 @@ export default function AdvancedAudit() {
           <p className="text-gray-600">
             Deeper chain-of-custody and compliance reports with redaction,
             MFA, and login event tracking.
-            <span className="ml-2 font-semibold">Phase III – Future</span>
+            {/* <span className="ml-2 font-semibold">Phase III – Future</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-          Roadmap Feature
+          Phase III – Custom Feature
         </span>
       </div>
 

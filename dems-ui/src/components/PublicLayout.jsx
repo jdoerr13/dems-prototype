@@ -1,26 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Layout from "../components/Layout";
 
-export default function PublicLayout({ children }) {
+export default function PublicPortal() {
   return (
-    <div className="flex h-screen bg-gray-100 font-sans">
-      <aside className="w-64 bg-gray-800 text-white flex flex-col shadow-lg">
-        <div className="p-5 text-xl font-bold border-b border-gray-700">
-          DEMS Public
-        </div>
-        <nav className="flex-1 p-4 space-y-4">
-          <Link to="/public" className="block px-3 py-2 rounded hover:bg-gray-700">
-            🌍 Public Portal
-          </Link>
-          <Link to="/transparency" className="block px-3 py-2 rounded hover:bg-gray-700">
-            📜 Transparency Logs
-          </Link>
-        </nav>
-      </aside>
+    <Layout>
+      <div className="space-y-6">
+        <h1 className="text-2xl font-bold text-gray-800">🌍 Public Portal</h1>
+        <p className="text-gray-600">
+          This portal provides public access to transparency logs, notifications,
+          and information shared by the Rexus Evident platform. 
+        </p>
 
-      <main className="flex-1 p-10 overflow-y-auto bg-gray-50">
-        <div className="max-w-7xl mx-auto">{children}</div>
-      </main>
-    </div>
+        {/* Example content */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-semibold mb-2">Transparency Logs</h2>
+          <p className="text-sm text-gray-600">
+            Public records and accountability reports will be listed here.
+          </p>
+        </div>
+      </div>
+    </Layout>
   );
 }

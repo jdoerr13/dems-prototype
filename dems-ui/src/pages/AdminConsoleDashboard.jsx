@@ -8,10 +8,12 @@ import {
   Pie,
   Cell,
   Tooltip,
+  Legend,
   BarChart,
   Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
 } from "recharts";
 import { saveAs } from "file-saver";
 
@@ -44,29 +46,39 @@ function StatCard({ title, value, color, path }) {
 }
 
 export default function AdminConsoleDashboard() {
-  const { counts, charts, audits, notifications } = useDashboardData();
-  const COLORS = [
-    "#3b82f6",
-    "#10b981",
-    "#f59e0b",
-    "#ef4444",
-    "#8b5cf6",
+  const { counts, audits, notifications } = useDashboardData();
+  const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+
+  // ---------------- MOCK DATA for clarity ----------------
+  const aiTags = [
+    { name: "Faces", value: 120 },
+    { name: "Weapons", value: 45 },
+    { name: "License Plates", value: 32 },
+    { name: "Documents", value: 60 },
+    { name: "Drugs", value: 28 },
+  ];
+
+  const casesByAgency = [
+    { name: "Metro PD", value: 3500 },
+    { name: "County Sheriff", value: 2700 },
+    { name: "State Bureau", value: 1800 },
+    { name: "Cybercrime Unit", value: 950 },
+    { name: "Narcotics Division", value: 1250 },
   ];
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-      <h1 className="text-3xl font-bold text-gray-900">
-        Admin — Dashboard
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-900">Admin — Dashboard</h1>
       <p className="text-gray-600">
         Oversight, audits, notifications, and AI analytics.
       </p>
 
-      {/* Stat Cards */}
+       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Live metrics */}
         <StatCard
           title="Total Cases"
-          value="18334"
+          value="18,334"
           color="bg-blue-600"
           path="/admin"
         />
@@ -88,33 +100,35 @@ export default function AdminConsoleDashboard() {
           color="bg-indigo-600"
           path="/users"
         />
+
+        {/* Mock Phase II/III features */}
         <StatCard
           title="Advanced Audit"
-          value="-"
+          value="512 flagged"
           color="bg-teal-600"
           path="/advanced-audit"
         />
         <StatCard
           title="Transparency Logs"
-          value="-"
+          value="243 disclosures"
           color="bg-blue-800"
           path="/transparency-internal"
         />
         <StatCard
           title="Analytics Dashboard"
-          value="-"
+          value="37 insights"
           color="bg-indigo-600"
           path="/analytics"
         />
         <StatCard
           title="Cross-Agency Governance"
-          value="-"
+          value="12 active MoUs"
           color="bg-blue-700"
           path="/cross-agency"
         />
         <StatCard
           title="Archival"
-          value="-"
+          value="78 TB stored"
           color="bg-gray-800"
           path="/archival"
         />
@@ -134,12 +148,13 @@ export default function AdminConsoleDashboard() {
       {/* AI Tag Analytics */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-3">AI Tag Analytics</h2>
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={charts.aiTags}>
-            <XAxis dataKey="name" />
-            <YAxis />
+        <ResponsiveContainer width="100%" height={280}>
+          <BarChart data={aiTags} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+            <YAxis allowDecimals={false} />
             <Tooltip />
-            <Bar dataKey="value" fill="#8b5cf6" />
+            <Bar dataKey="value" fill="#8b5cf6" barSize={40} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -148,35 +163,32 @@ export default function AdminConsoleDashboard() {
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-3">System Metrics</h2>
         <ul className="text-sm space-y-2">
-          <li>
-            <strong>Storage:</strong> 350 TB (simulated)
-          </li>
-          <li>
-            <strong>Annual Case Load:</strong> 9,000 cases/year
-          </li>
-          <li>
-            <strong>Defense Attorneys:</strong> 650 registered
-          </li>
+          <li><strong>Storage:</strong> 350 TB (simulated)</li>
+          <li><strong>Annual Case Load:</strong> 9,000 cases/year</li>
+          <li><strong>Defense Attorneys:</strong> 650 registered</li>
         </ul>
       </div>
 
       {/* Cases by Agency */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-3">Cases by Agency</h2>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={280}>
           <PieChart>
             <Pie
-              data={charts.casesByAgency}
+              data={casesByAgency}
               dataKey="value"
               nameKey="name"
-              outerRadius={100}
-              label
+              outerRadius={110}
+              label={({ name, percent }) =>
+                `${name}: ${(percent * 100).toFixed(1)}%`
+              }
             >
-              {charts.casesByAgency.map((_, i) => (
+              {casesByAgency.map((_, i) => (
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
+            <Legend />
           </PieChart>
         </ResponsiveContainer>
       </div>

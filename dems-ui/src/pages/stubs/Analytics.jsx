@@ -37,11 +37,12 @@ export default function Analytics() {
           <h2 className="text-3xl font-bold text-gray-900">Analytics</h2>
           <p className="text-gray-600">
             Insights into case activity, evidence trends, and performance
-            metrics. <span className="font-semibold">Phase II – Planned</span>
+            metrics.
+             {/* <span className="font-semibold">Phase II – Planned</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
-          Future Feature
+         Phase II – Custom Feature
         </span>
       </div>
 

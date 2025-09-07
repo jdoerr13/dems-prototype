@@ -1,7 +1,7 @@
 // src/pages/stubs/Redaction.jsx
 import React, { useState } from "react";
 import { useCases } from "../../contexts/CaseContext";
-import { Eye, Shield, Wand2 } from "lucide-react";
+import { Eye, Shield, Wand2, Download } from "lucide-react";
 import RedactionPreview from "../../components/RedactionPreview";
 
 export default function RedactionPage() {
@@ -63,10 +63,7 @@ export default function RedactionPage() {
             </thead>
             <tbody>
               {demoEvidence.map((ev) => (
-                <tr
-                  key={ev.id}
-                  className="border-t hover:bg-gray-50"
-                >
+                <tr key={ev.id} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2">{ev.filename}</td>
                   <td className="px-4 py-2">{ev.caseId}</td>
                   <td className="px-4 py-2">{ev.type}</td>
@@ -103,6 +100,17 @@ export default function RedactionPage() {
           <p className="mt-3 text-sm text-gray-500 italic">
             Mock auto-detected regions: faces, license plates, documents.
           </p>
+
+          {/* Disabled Export Button */}
+          <div className="mt-4 flex gap-3">
+            <button
+              disabled
+              title="Phase II – Export functionality planned"
+              className="flex items-center gap-2 px-3 py-1 bg-gray-300 text-gray-500 rounded text-xs font-semibold cursor-not-allowed"
+            >
+              <Download className="w-4 h-4" /> Export Redacted Copy
+            </button>
+          </div>
         </div>
       )}
     </section>
