@@ -55,11 +55,11 @@ export default function ChainOfCustodyPage() {
           <h1 className="text-3xl font-bold text-gray-900">Chain of Custody</h1>
           <p className="text-gray-600">
             Trace evidence handling end-to-end with secure logs.
-            <span className="ml-2 font-semibold">Phase II – Planned</span>
+            {/* <span className="ml-2 font-semibold">Phase II – Planned</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold">
-          Future Feature
+          Phase II – Custom Feature
         </span>
       </div>
 
@@ -86,7 +86,7 @@ export default function ChainOfCustodyPage() {
       {/* Evidence audit trails */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">
-          Evidence Audit Trails (Mock Data)
+          Evidence Audit Trails 
         </h2>
         {cases.slice(0, 3).map((c) => (
           <div

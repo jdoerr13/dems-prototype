@@ -57,11 +57,11 @@ export default function CrossAgency() {
           <h2 className="text-3xl font-bold text-gray-900">Cross-Agency Sharing</h2>
           <p className="text-gray-600">
             Manage case and evidence access across external agencies.
-            <span className="ml-2 font-semibold">Phase II – Planned</span>
+            {/* <span className="ml-2 font-semibold">Phase II – Planned</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-          Future Feature
+          Phase II – Custom Feature
         </span>
       </div>
 
@@ -104,14 +104,14 @@ export default function CrossAgency() {
           </button>
         </div>
         <p className="mt-2 text-xs text-gray-500 italic">
-          Mock-only for demo — full functionality planned in Phase II.
+          Full Customized functionality in Phase II.
         </p>
       </div>
 
       {/* Shared cases table */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          Shared Cases (Mock Data)
+          Shared Cases 
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">

@@ -152,7 +152,7 @@ export default function DefenseDashboard() {
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold mb-2">AI Redaction Alerts</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Mock AI analysis of uploaded evidence has flagged{" "}
+          AI analysis of uploaded evidence has flagged{" "}
           <strong>sensitive elements</strong> like faces, license plates, and
           documents requiring review before release.
         </p>

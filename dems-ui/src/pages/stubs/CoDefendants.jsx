@@ -38,13 +38,14 @@ export default function CoDefendantLinking() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-900">
-          <Users className="text-blue-600" /> Co-Defendant Linking
-          <span className="ml-2 px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-700">
+          {/* <Users className="text-blue-600" />  */}
+          Co-Defendant Linking
+          {/* <span className="ml-2 px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-700">
             Phase II – Planned
-          </span>
+          </span> */}
         </h2>
         <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-          Future Feature
+          Phase II – Custom Feature
         </span>
       </div>
 
@@ -67,7 +68,7 @@ export default function CoDefendantLinking() {
       {/* Linked Cases Table */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          Linked Cases (Mock Data)
+          Linked Cases
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">
@@ -96,7 +97,7 @@ export default function CoDefendantLinking() {
       {/* Shared Evidence Section */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          Shared Evidence (Mock Data)
+          Shared Evidence 
         </h3>
         <ul className="space-y-2 text-sm text-gray-700">
           {sharedEvidence.map((ev) => (

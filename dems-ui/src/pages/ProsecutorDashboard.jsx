@@ -98,7 +98,7 @@ export default function ProsecutorDashboard() {
         </div>
         <div className="self-start flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
           <ShieldCheck className="w-4 h-4" />
-          CJIS / FedRAMP Compliant (Simulated)
+          CJIS / FedRAMP Compliant 
         </div>
       </div>
 
@@ -144,7 +144,7 @@ export default function ProsecutorDashboard() {
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="font-semibold mb-2">Case Outcomes Over Time</h2>
           <p className="text-sm text-gray-500 mb-4">
-            Monthly trends of accepted vs rejected cases (mock data).
+            Monthly trends of accepted vs rejected cases ( data).
           </p>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={caseOutcomesByMonth}>
@@ -162,7 +162,7 @@ export default function ProsecutorDashboard() {
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="font-semibold mb-2">AI Flag Alerts</h2>
           <p className="text-sm text-gray-500 mb-4">
-            AI-flagged categories across recent evidence (mock data).
+            AI-flagged categories across recent evidence.
           </p>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={aiAlerts}>

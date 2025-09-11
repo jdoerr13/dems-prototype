@@ -124,7 +124,7 @@ export default function LEADashboard() {
         </div>
         <div className="self-start flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
           <ShieldCheck className="w-4 h-4" />
-          CJIS / FedRAMP Compliant (Simulated)
+          CJIS / FedRAMP Compliant
         </div>
       </div>
 

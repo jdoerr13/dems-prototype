@@ -28,11 +28,11 @@ export default function LongTermArchival() {
           </h2>
           <p className="text-gray-600">
             Manage retention, cold storage tiers, and legal hold policies.
-            <span className="ml-2 font-semibold">Phase III – Future</span>
+            {/* <span className="ml-2 font-semibold">Phase III – Future</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-semibold">
-          Roadmap Feature
+          Phase III – Custom Roadmap Feature
         </span>
       </div>
 
@@ -58,7 +58,7 @@ export default function LongTermArchival() {
       {/* Mock Archive Usage */}
       <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
         <h3 className="text-lg font-semibold text-gray-800">
-          Archive Usage (Mock Data)
+          Archive Usage 
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">
@@ -113,7 +113,7 @@ export default function LongTermArchival() {
       {/* Archive Activity Log */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center gap-2">
-          <Bell className="w-5 h-5 text-indigo-600" /> Archive Activity (Mock Data)
+          <Bell className="w-5 h-5 text-indigo-600" /> Archive Activity 
         </h3>
         <ul className="divide-y divide-gray-200 text-sm text-gray-700 max-h-60 overflow-y-auto">
           {archiveActivity.map((a) => (

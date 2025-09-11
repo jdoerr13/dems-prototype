@@ -66,7 +66,7 @@ export default function Layout({ children }) {
 
           {/* Notification Dropdown */}
           {open && (
-            <div className="absolute top-8 right-0 w-72 bg-white text-gray-800 rounded shadow-lg border max-h-80 overflow-y-auto z-50">
+            <div className="absolute top-8 left-0 w-72 bg-white text-gray-800 rounded shadow-lg border max-h-80 overflow-y-auto z-50">
               <div className="flex justify-between items-center p-3 font-semibold border-b bg-gray-50">
                 Notifications
                 <button

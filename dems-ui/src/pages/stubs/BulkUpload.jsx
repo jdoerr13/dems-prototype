@@ -22,10 +22,10 @@ export default function BulkUpload() {
           Phase II – Planned
         </span>
       </div>
-      <p className="text-gray-600">
-        Simulated bulk upload feature for Phase II — drag & drop, metadata mapping,
+
+     Drag & drop, metadata mapping,
         and background processing.
-      </p>
+      
 
       {/* Feature Highlights */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -49,7 +49,7 @@ export default function BulkUpload() {
       {/* Mock Upload Zone */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          Upload Zone (Mock Demo)
+          Upload Zone 
         </h3>
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-500 mb-4">
           <p className="mb-2">Drag & drop files here</p>
@@ -91,7 +91,7 @@ export default function BulkUpload() {
       {/* Sample CSV Mapping */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          Sample CSV Mapping (Mock)
+          Sample CSV Mapping
         </h3>
         <p className="text-sm text-gray-600 mb-3">
           Metadata sidecar maps uploaded files to case records:

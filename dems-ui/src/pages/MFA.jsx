@@ -55,7 +55,7 @@ export default function MFA() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-600 px-4">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md space-y-8">
         {/* Progress Indicator */}
         <div className="flex items-center justify-between text-sm font-medium text-gray-600 mb-2">

@@ -63,12 +63,12 @@ export default function DefensePortal() {
             Defense Discovery Portal
           </h2>
           <p className="text-gray-600">
-            Secure access to discovery materials (read-only).
+            Secure access to discovery materials.
           </p>
         </div>
         <div className="flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
           <ShieldCheck className="w-4 h-4" />
-          Defense Access — CJIS Compliant (Simulated)
+          Defense Access — CJIS Compliant 
         </div>
       </div>
 

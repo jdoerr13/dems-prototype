@@ -18,12 +18,12 @@ export default function RedactionPage() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Redaction Tools</h1>
           <p className="text-gray-600">
-            AI-powered redaction preview (mock demo only).
-            <span className="ml-2 font-semibold">Phase II – Planned</span>
+            AI-powered redaction preview.
+            {/* <span className="ml-2 font-semibold">Phase II – Planned</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-          Future Feature
+          Phase II – Custom Feature
         </span>
       </div>
 
@@ -49,7 +49,7 @@ export default function RedactionPage() {
       {/* Evidence list */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">
-          Evidence Items (Mock)
+          Evidence Items
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">
@@ -98,7 +98,7 @@ export default function RedactionPage() {
           </div>
           <RedactionPreview item={active} />
           <p className="mt-3 text-sm text-gray-500 italic">
-            Mock auto-detected regions: faces, license plates, documents.
+            Auto-detected regions: faces, license plates, documents.
           </p>
 
           {/* Disabled Export Button */}

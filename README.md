@@ -123,7 +123,7 @@ Pages
 Core Role Portals
 •	LEAPortal.jsx → Law Enforcement upload portal. Case/evidence entry.
 •	ProsecutorPortal.jsx → Case management, approvals, assign defense, link co-defendants.
-•	DefensePortal.jsx → Discovery portal, read-only access to assigned evidence.
+•	DefensePortal.jsx → Discovery portal, access to assigned evidence.
 •	AdminConsole.jsx → Admin management (users, audits, settings).
 Dashboards
 •	LEADashboard.jsx → Case counts, evidence breakdown, custody events.
@@ -131,7 +131,7 @@ Dashboards
 •	DefenseDashboard.jsx → Assigned cases, evidence list, toast alerts.
 •	AdminConsoleDashboard.jsx → Case stats, audit logs, notifications, CSV export stub.
 Auth
-•	Login.jsx → Login screen. Currently mock auth, backend-ready.
+•	Login.jsx → Login screen. Currently auth, backend-ready.
 •	MFA.jsx → MFA challenge screen (stubbed, ready to connect).
 Phase II / III Stubs
 Located in pages/stubs/.

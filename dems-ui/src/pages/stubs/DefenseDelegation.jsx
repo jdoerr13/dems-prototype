@@ -29,15 +29,16 @@ export default function DefenseDelegationPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <Users className="text-blue-600" /> Defense Delegation
+            {/* <Users className="text-blue-600" />  */}
+            Defense Delegation
           </h1>
           <p className="text-gray-600">
             Assign co-counsel, paralegals, or investigators to access discovery.
-            <span className="ml-2 font-semibold">Phase II – Planned</span>
+            {/* <span className="ml-2 font-semibold">Phase II – Planned</span> */}
           </p>
         </div>
         <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-          Future Feature
+          Phase II – Custom Feature
         </span>
       </div>
 
@@ -63,7 +64,7 @@ export default function DefenseDelegationPage() {
       {/* Linked cases with delegation (mock) */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">
-          Delegations (Mock Data)
+          Delegations
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">

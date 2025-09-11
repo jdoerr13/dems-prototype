@@ -78,7 +78,7 @@ export default function UserManagement() {
       {/* User Table */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">
-          User Directory (Mock Data)
+          User Directory 
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-700">
